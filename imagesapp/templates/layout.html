@@ -2,45 +2,51 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="{% static "style/base.css" %}" />
-        <link rel="stylesheet" href="{% static "style/style.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "style/base.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "style/styles.css" %}" />
         <title>{% block title %}Images APP{% endblock %}</title>
     </head>
 <body>
-    <div id="header_container">
-        <div id="header">
-            {% block header %}
-                <div id="account">
-                    {% if user.username %}
-                        <p>User: {{ user.username }}</p>
-                    {% endif %}
-                </div>
-                <div id="menu">
-                    {% block sidebar %}
-                        <p><a href="/imagesapp/">Newest</a></p>
-                        <p><a href="/imagesapp/">Top Rated</a></p>
-                        <p><a href="/imagesapp/">Most Commented</a></p>
+    <div id="wrapper">
+        <div id="header_container">
+            <div id="header">
+                {% block header %}
+                    <div id="account">
                         {% if user.username %}
-                            <p><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></p>
-                        {% else %}
-                            <p><a href="{% url 'login' %}?next={{request.path}}">Login</a></p>
+                            <p>User: <b>{{ user.username }}</b></p>
                         {% endif %}
-                    {% endblock %}
-                </div>
+                    </div>
+                    <div id="menu">
+                        {% block sidebar %}
+                            <p><a href="/imagesapp/">Newest</a></p>
+                            <p><a href="/imagesapp/">Top Rated</a></p>
+                            <p><a href="/imagesapp/">Most Commented</a></p>
+                            {% if user.username %}
+                                <p><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></p>
+                            {% else %}
+                                <p><a href="{% url 'login' %}?next={{request.path}}">Login</a></p>
+                            {% endif %}
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+
+        <div id="content">
+            {% block content %}
+                {% if error_message %}
+                    <p><strong>{{ error_message }}</strong></p>
+                {% endif %}
             {% endblock %}
         </div>
-    </div>
-
-    <div id="content">
-        {% block content %}
-            {% if error_message %}
-                <p><strong>{{ error_message }}</strong></p>
-            {% endif %}
-        {% endblock %}
-    </div>
-    <div id="footer">
-        {% block footer %}
-        {% endblock %}
+        <div id="footer_container">
+            <div id="footer">
+                {% block footer %}
+                    <p><a href="mailto:javi_lcs16@hotmail.com">Contact</a></p>
+                    <p>Copyright &copy; 2017. All rights reserved.</p>
+                {% endblock %}
+            </div>
+        </div>
     </div>
 </body>
 </html>

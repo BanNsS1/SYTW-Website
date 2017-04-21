@@ -12,3 +12,22 @@ a:visited{text-decoration:none;}
 a:hover{text-decoration:none;}
 a:active{text-decoration:none;}
 iframe, frame{padding:0;margin:0;}
+
+
+body{font-family: 'Ubuntu', 'Arial', 'sans-serif';}
+#wrapper{min-height: 100%;position: relative;}
+#header_container{background: #222; width:100%;}
+#header{max-width:1200px;margin:0 auto;overflow:hidden;}
+#header div{padding:10px 20px;}
+#header a, #header b{color:#FFF;}
+#header a:hover{color:#5ca5ff;}
+#header #account{float:left;}
+#header #account p{color:#dadada;}
+#header #menu{float:right;}
+#header #menu p{float:left;margin-right:20px;}
+
+#footer_container{position: absolute;bottom: 0px;background:#222; color:#FFF; width:100%}
+#footer{max-width:1200px;margin:0 auto;overflow:hidden;padding:10px 20px;}
+#footer p{text-align:center;margin:10px 0px;}
+#footer a{color:#FFF;}
+#footer a:hover{color:#5ca5ff;}
