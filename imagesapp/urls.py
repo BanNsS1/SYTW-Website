@@ -14,13 +14,26 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.utils import timezone
+from django.contrib.auth.views import login, logout
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
 from models import Image, Rate, Comment
-from views import ImageDetail, ImageCreate, RateCreate, CommentCreate
+from views import ImageDetail, ImageCreate, ImageDelete, RateCreate, CommentCreate, CommentDelete
 from forms import ImageForm, RateForm, CommentForm
 
 
 urlpatterns = [
+    #Login
+     url(r'^login/$',
+        login,
+        name='login'),
+
+    #Logout
+    url(r'^logout/$',
+        logout,
+        name='logout',
+        kwargs={'next_page': '/'}),
+
     # List newest 10 images: /imagesapp/
     url(r'^$',
         ListView.as_view(
@@ -61,25 +74,22 @@ urlpatterns = [
     ),
 
     # Delete image /imagesapp/images/1/delete
-    #url(r'^images/(?P<pkr>\d+)/delete/$')
-
-# RATES
-    # View Rate /imagesapp/images/1/rates/1/
-    url(r'^rates/(?P<pk>\d+)/$',
-        DetailView.as_view(
-            model=Rate,
-            template_name = 'rate_detail.html'
+    url(r'^images/(?P<pkr>\d+)/delete/$',
+        ImageDelete.as_view(
+            model = Image,
+            success_url = reverse_lazy('imagesapp:image_list')
         ),
-        name = 'rate_detail'
+        name = 'image_delete'
     ),
 
+# RATES
     # Rate image /imagesapp/images/1/rates/create
     url(r'^images/(?P<pk>\d+)/rates/create',
         RateCreate.as_view(),
         name='rate_create'
     ),
 
-    # Edit Rate /imagesapp/images/1/rates/edit
+    # Edit Rate /imagesapp/rates/1/edit
     url(r'^rates/(?P<pk>\d+)/edit/$',
         UpdateView.as_view(
             model = Rate,
@@ -89,27 +99,14 @@ urlpatterns = [
         name='rate_edit'
     ),
 
-    #Since deleting a rate makes no sense we're not going to provide this feature
-    # Delete Rate /imagesapp/images/1/delete
-    #url(r'^images/(?P<pk>\d+)/rates/(?P<pk>\d+)/delete/$', )
-
 # COMMENTS
-    # View Comment /imagesapp/images/1/comments/1/
-    url(r'^comments/(?P<pk>\d+)/$',
-        DetailView.as_view(
-            model=Comment,
-            template_name = 'comment_detail.html'
-        ),
-        name = 'comment_detail'
-    ),
-
-    # Comment image /imagesapp/comments/create
+    # Comment image /imagesapp/images/1/comments/create
     url(r'^images/(?P<pk>\d+)/comments/create',
         CommentCreate.as_view(),
         name='comment_create'
     ),
 
-    # Edit Comment /imagesapp/images/1/comments/1/edit
+    # Edit Comment /imagesapp/comments/1/edit
     url(r'^comments/(?P<pk>\d+)/edit/$',
         UpdateView.as_view(
             model = Comment,
@@ -117,8 +114,14 @@ urlpatterns = [
             form_class = CommentForm
         ),
         name='comment_edit'
-    )
+    ),
 
-    # Delete Comment /imagesapp/images/1/comments/1/delete
-    #url(r'^images/(?P<pk>\d+)/comments/(?P<pk>\d+)/delete/$', )
+    # Delete Comment /imagesapp/comments/1/delete
+    url(r'^comments/(?P<pk>\d+)/delete/$',
+        CommentDelete.as_view(
+            model = Comment,
+            success_url = reverse_lazy('imagesapp:image_list')
+        ),
+        name = 'comment_delete'
+    )
 ]
