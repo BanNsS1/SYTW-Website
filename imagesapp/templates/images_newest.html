@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>
+        Lastest Images Uploaded
+        {% if user %}
+            (<a href="{% url 'imagesapp:image_create' %}">add</a>)
+        {% endif %}
+    </h1>
+    <ul>
+     {% for image in latest_images_list %}
+        <li>
+            <p>{{ image.user.username }}</p>
+                <a href="{% url 'imagesapp:image_detail' image.id %}">
+                    <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" />
+                    <p>{{ image.title }}</p>
+                </a>
+            <p>{{ image.description }}</p>
+        </li>
+        {% empty %}<li>Sorry, no restaurants registered yet.</li>
+     {% endfor %}
+    </ul>
+{% endblock %}

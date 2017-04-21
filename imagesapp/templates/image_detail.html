@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>
+    {{ image.title }}
+    {% if user == image.user %}
+        (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a> | \
+        <!--<a href=" url 'imagesapp:image_delete' image.id ">Delete</a>)-->
+    {% endif %}
+</h1>
+<img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" />
+<p>Uploaded by {{ image.user.username }}</p>
+<p>{{ image.description }}</p>
+
+
+{% for rate in image.rates.all %}
+    Rated by {{ rate.user.username }} with a {{ rate.rating }}
+    {% empty %}<p>No one has rated this image yet. Be the first!</p>
+{% endfor %}
+
+
+{% for comment in image.comments.all %}
+    <p>
+        <b>{{ comment.user.username }}:</b>
+        <span>{{ comment.text }}</span>
+    <p>
+    {% empty %}<p>No one has commented this image yet. Be the first!</p>
+{% endfor %}-->
+
+<h2>
+    <a href="{% url 'imagesapp:comment_create' image.id %}">Comment</a> |
+    <a href="{% url 'imagesapp:rate_create' image.id %}">Rate</a>
+</h1>
+
+{% endblock %}

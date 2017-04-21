@@ -12,10 +12,13 @@ Class-based views
 Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^imagesapp/, include('imagesapp.urls'), namespace='imagesapp')
+    url(r'^imagesapp/', include('imagesapp.urls', namespace='imagesapp')),
+    url(r'^account/login/$', login, name='login'),
+    url(r'^account/logout/$', logout, name='logout'),
 ]
