@@ -1,35 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h1>
-    {{ image.title }}
+<div id="image_detail">
     {% if user == image.user %}
-        (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a> | \
-        <!--<a href=" url 'imagesapp:image_delete' image.id ">Delete</a>)-->
+        <div id="owner_actions">
+            (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a>
+            <a href=" url 'imagesapp:image_delete' image.id ">Delete</a>)
+        </div>
     {% endif %}
-</h1>
-<img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" />
-<p>Uploaded by {{ image.user.username }}</p>
-<p>{{ image.description }}</p>
 
+    <p class='title'>
+        {{ image.title }}
+    </p>
 
-{% for rate in image.rates.all %}
-    Rated by {{ rate.user.username }} with a {{ rate.rating }}
-    {% empty %}<p>No one has rated this image yet. Be the first!</p>
-{% endfor %}
+    <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" />
 
+    <p class="owner">Uploaded by {{ image.user.username }}</p>
+    <p class="description">{{ image.description }}</p>
 
-{% for comment in image.comments.all %}
-    <p>
-        <b>{{ comment.user.username }}:</b>
-        <span>{{ comment.text }}</span>
-    <p>
-    {% empty %}<p>No one has commented this image yet. Be the first!</p>
-{% endfor %}-->
+    <div id="rates">
+        {% for rate in image.rates.all %}
+            <p>Rated by {{ rate.user.username }} with a {{ rate.rating }}</p>
+            {% empty %}<p>No one has rated this image yet. Be the first!</p>
+        {% endfor %}
+    </div>
 
-<h2>
+    <div id="comments">
+        {% for comment in image.comments.all %}
+            <p>
+                <b>{{ comment.user.username }}:</b>
+                <span>{{ comment.text }}</span>
+                {% if user == comment.user %}
+                    <a href="">Delete</a>
+                {% endif %}
+            <p>
+            {% empty %}<p>No one has commented this image yet. Be the first!</p>
+        {% endfor %}
+    </div>
+</div>
+<div id="user_actions">
     <a href="{% url 'imagesapp:comment_create' image.id %}">Comment</a> |
     <a href="{% url 'imagesapp:rate_create' image.id %}">Rate</a>
-</h1>
+</div>
 
 {% endblock %}
