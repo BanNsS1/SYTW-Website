@@ -15,12 +15,12 @@ from forms import ImageForm, RateForm, CommentForm
 class LoginRequired(object):
     @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+        return super(LoginRequired, self).dispatch(*args, **kwargs)
 
 
 class OwnerRequired(object):
     def get_object(self, *args, **kwargs):
-        obj = super(CheckIsOwnerMixin, self).get_object(*args, **kwargs)
+        obj = super(OwnerRequired, self).get_object(*args, **kwargs)
         if not obj.user == self.request.user:
             raise PermissionDenied
         return obj
@@ -37,6 +37,9 @@ class ImageCreate(LoginRequired,CreateView):
     model = Image
     template_name = 'form.html'
     form_class = ImageForm
+
+    def get_success_url(self):
+        return reverse_lazy('imagesapp:image_detail', args=(self.object.id,))
 
     def form_valid(self, form):
         form.instance.user = self.request.user

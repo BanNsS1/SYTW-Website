@@ -15,7 +15,7 @@ iframe, frame{padding:0;margin:0;}
 
 html, body{height: 100%;}
 body{font-family: 'Ubuntu', 'Arial', 'sans-serif';}
-#wrapper{min-height: 100%;position: relative;}
+#wrapper{min-height: 100%;position: relative;padding-bottom:85px;}
 #header_container{background: #222; width:100%;}
 #header{max-width:1200px;margin:0 auto;overflow:hidden;}
 #header div{padding:10px 20px;}

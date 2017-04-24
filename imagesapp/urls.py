@@ -64,17 +64,18 @@ urlpatterns = [
     ),
 
     # Edit image /imagesapp/images/1/edit
-    url(r'^images/(?P<pkr>\d+)/edit/$',
+    url(r'^images/(?P<pk>\d+)/edit/$',
         UpdateView.as_view(
             model = Image,
             template_name = 'form.html',
-            form_class = ImageForm
+            form_class = ImageForm,
+            #success_url = reverse_lazy('imagesapp:image_detail', args=(image.id,))
         ),
         name='image_edit'
     ),
 
     # Delete image /imagesapp/images/1/delete
-    url(r'^images/(?P<pkr>\d+)/delete/$',
+    url(r'^images/(?P<pk>\d+)/delete/$',
         ImageDelete.as_view(
             model = Image,
             success_url = reverse_lazy('imagesapp:image_list')

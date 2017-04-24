@@ -4,8 +4,9 @@
 <div id="image_detail">
     {% if user == image.user %}
         <div id="owner_actions">
+            {{ image.id }}
             (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a>
-            <a href=" url 'imagesapp:image_delete' image.id ">Delete</a>)
+            <a href="{% url 'imagesapp:image_delete' image.id %}">Delete</a>)
         </div>
     {% endif %}
 
