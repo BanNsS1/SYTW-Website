@@ -18,7 +18,7 @@ from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
 from models import Image, Rate, Comment
-from views import ImageDetail, ImageCreate, ImageDelete, RateCreate, CommentCreate, CommentDelete
+from views import ImageDetail, ImageCreate, ImageEdit, ImageDelete, RateCreate, CommentCreate, CommentDelete
 from forms import ImageForm, RateForm, CommentForm
 
 
@@ -36,6 +36,15 @@ urlpatterns = [
 
     # List newest 10 images: /imagesapp/
     url(r'^$',
+        ListView.as_view(
+            queryset=Image.objects.filter(date__lte=timezone.now()).order_by('date')[:10],
+            context_object_name='latest_images_list',
+            template_name='images_newest.html'
+        ),
+        name='image_list'
+    ),    
+
+	url(r'^toprated/$',
         ListView.as_view(
             queryset=Image.objects.filter(date__lte=timezone.now()).order_by('date')[:10],
             context_object_name='latest_images_list',

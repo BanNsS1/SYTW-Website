@@ -42,7 +42,10 @@ urlpatterns = [
             template_name='images_newest.html'
         ),
         name='image_list'
-    ),
+    ),    
+
+	#url(r'^toprated/$'),
+	#url(r'^mostcommented/$'),
 
     # List top rated 10 images: /imagesapp/
     #url(r'^toprated/$',)
