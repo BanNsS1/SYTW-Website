@@ -33,12 +33,15 @@ body{font-family: 'Ubuntu', 'Arial', 'sans-serif';}
 #content a:hover{text-decoration:underline;}
 #content p.noDataFound{color: #777;text-align: center;margin-top: 50px;}
 
-#content div.image{text-align:center;padding:0px 10px 0px 10px;}
-#content div.image div.top{background: #EFEFEF;border: 1px #DDD solid;overflow:hidden;}
+#content div.image{text-align:center;padding:00px 10px 0px 10px;}
+#content div.imagefirst{margin-top:10px;}
+
+#content div.image div.top{background: #EFEFEF;border: 1px #DDD solid;border-top:0;overflow:hidden;}
+#content div.imagefirst div.top{border-top:1px #DDD solid !important;}
 #content div.image p.title{float:left;text-align:left;font-weight:bold;font-size:14px;padding-left:20px;margin:10px 0px;}
 #content div.image p.author{float:right;text-align:left;font-size:12px;padding-right:20px;margin:10px 0px;}
 
-#content div.image div.center{background: #EFEFEF;padding: 15px 0px;border: 1px #DDD solid;border-bottom:0px;border-top:0px;}
+#content div.image div.center{background: #EFEFEF;padding: 15px 0px;border: 1px #DDD solid;border-top:0px;}
 #content div.image img{max-width:800px;max-height:400px;padding:5px;background:#FFF;box-shadow: 0px 0px 5px 0px #000}
 
 

@@ -51,7 +51,7 @@ class ImageEdit(LoginRequired, OwnerRequired, UpdateView):
 	form_class = ImageForm
 
 	def get_success_url(self):
-		return reverse_lazy('imagesapp:image_detail', args=(self.object.id,))
+		return reverse_lazy('imagesapp:image_detail', args(self.object.id,))
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user

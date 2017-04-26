@@ -6,8 +6,10 @@
             (<a href="{% url 'imagesapp:image_create' %}">add</a>)
         {% endif %}
     </h1>
+	{% i = 1%}
     {% for image in latest_images_list %}
-        <div class="image">
+		{{ i }}
+        <div class="image {% if image.id == 1%} imagefirst {% endif %}">
 			<div class="top">
 				<p class="title">
 					<a href="{% url 'imagesapp:image_detail' image.id %}">

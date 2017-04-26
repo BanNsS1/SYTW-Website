@@ -42,15 +42,13 @@
             </div>
         <!-- /HEADER -->
         <!-- CONTENT -->
-			<div id="content_container">
-		        <div id="content">
-		            {% block content %}
-		                {% if error_message %}
-		                    <p><strong>{{ error_message }}</strong></p>
-		                {% endif %}
-		            {% endblock %}
-		        </div>
-			</div>
+            <div id="content">
+                {% block content %}
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                {% endblock %}
+            </div>
         <!-- /CONTENT -->
         <!-- FOOTER -->
             <div id="footer_container">
