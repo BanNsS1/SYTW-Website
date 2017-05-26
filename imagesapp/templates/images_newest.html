@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+<div id="content_container">
+  <div id="content">
     <h1>
         Lastest Images Uploaded
         {% if user %}
@@ -14,7 +16,7 @@
 						{{ image.title }}
 					</a>
 				</p>
-            	<p class="author">Uploaded by <b>{{ image.user.username }}</b></p>
+            	<p class="author">Uploaded by <a href="{% url 'profile' image.user.id %}"><b>{{ image.user.username }}</b></a></p>
 			</div>
 			<div class="center">
                 <a href="{% url 'imagesapp:image_detail' image.id %}">
@@ -25,4 +27,6 @@
         {% empty %}<p class="noDataFound">Sorry, no images added yet.</p>
     {% endfor %}
     </ul>
+  </div>
+</div>
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
@@ -9,8 +10,26 @@ from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 from models import Image, Rate, Comment
 from forms import ImageForm, RateForm, CommentForm
+
+class Register(CreateView):
+    model = User
+    template_name = 'registration/register.html'
+    form_class = UserCreationForm
+
+    def form_valid(self,form):
+        new_user = form.save()
+        new_user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password1'],
+                                )
+        login(self.request, new_user)
+        return HttpResponseRedirect("/accounts/profile/")
+
 
 class LoginRequired(object):
     @method_decorator(login_required())
@@ -25,6 +44,20 @@ class OwnerRequired(object):
             raise PermissionDenied
         return obj
 
+class UserDetail(DetailView):
+    model = User
+    template_name = 'user_detail.html'
+
+    def get_content_data(self, **kwargs):
+        context = super(UserDetail, self).get_context_data(**kwargs)
+        return context
+
+def SelfUserProfile(request):
+    if request.user.is_authenticated():
+        username = request.user.username
+        return render(request, "user_detail.html", {})
+
+
 class ImageDetail(DetailView):
     model = Image
     template_name = 'image_detail.html'
@@ -33,7 +66,7 @@ class ImageDetail(DetailView):
         context = super(ImageDetail, self).get_context_data(**kwargs)
         return context
 
-class ImageCreate(LoginRequired,CreateView):
+class ImageCreate(LoginRequired, CreateView):
     model = Image
     template_name = 'form.html'
     form_class = ImageForm

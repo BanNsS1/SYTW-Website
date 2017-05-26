@@ -23,17 +23,6 @@ from forms import ImageForm, RateForm, CommentForm
 
 
 urlpatterns = [
-    #Login
-     url(r'^login/$',
-        login,
-        name='login'),
-
-    #Logout
-    url(r'^logout/$',
-        logout,
-        name='logout',
-        kwargs={'next_page': '/'}),
-
     # List newest 10 images: /imagesapp/
     url(r'^$',
         ListView.as_view(
@@ -42,7 +31,7 @@ urlpatterns = [
             template_name='images_newest.html'
         ),
         name='image_list'
-    ),    
+    ),
 
 	#url(r'^toprated/$'),
 	#url(r'^mostcommented/$'),

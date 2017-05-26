@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="content_container">
+  <div id="content-forms-top">Register</div>
+  <div id="content-forms-cnt">
+    <form id="register" method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input class="submit" type="submit" value="Register" />
+    </form>
+  </div>
+</div>
+{% endblock %}

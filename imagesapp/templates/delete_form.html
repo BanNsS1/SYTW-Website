@@ -2,10 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<div id="content_container">
+  <div id="content">
     <h1> Are you sure you want to delete {{ object }}? </h1>
     <form method="POST" action="">
         {% csrf_token %}
         <input type="submit" value="Yes" />
     </form>
+  </div>
+</div>
 {% endblock %}

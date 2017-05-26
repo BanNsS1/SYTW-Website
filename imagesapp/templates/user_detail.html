@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="content_container">
+  <div id="content">
+    <div id="user_detail">
+      {% if user == request.user %}
+        <p>Welcome to your profile <b>{{ user.username }}</b>!</p>
+      {% else %}
+        <p>Welcome to <b>{{ user.username }}</b>'s profile!</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
