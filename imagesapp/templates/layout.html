@@ -11,6 +11,8 @@
         <!-- Disable cache finished -->
 
         <link rel="stylesheet" type="text/css" href="{% static "style/base.css" %}" />
+        <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.ajax.min.js" %}"></script>
         <title>{% block title %}Images APP{% endblock %}</title>
         </head>
     <body>
@@ -26,9 +28,9 @@
                         </div>
                         <div id="menu">
                             {% block sidebar %}
-                                <p><a href="/imagesapp/">Newest</a></p>
-                                <p><a href="/imagesapp/">Top Rated</a></p>
-                                <p><a href="/imagesapp/">Most Commented</a></p>
+                                <p><a href="/imagesapp/">Home</a></p>
+                                <!--<p><a href="/imagesapp/">Top Rated</a></p>
+                                <p><a href="/imagesapp/">Most Commented</a></p>-->
                                 {% if user.username %}
                                     <p><a href="{% url 'logout' %}">Logout</a></p>
                                 {% else %}
@@ -52,7 +54,7 @@
             <div id="footer_container">
                 <div id="footer">
                     {% block footer %}
-                        <p><a href="mailto:javi_lcs16@hotmail.com">Contact</a></p>
+                        <p><a href="https://github.com/BanNsS1/SYTW-Website" target="_blank">View on Github</a></p>
                         <p>Copyright &copy; 2017. All rights reserved.</p>
                     {% endblock %}
                 </div>

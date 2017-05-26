@@ -8,6 +8,75 @@
             (<a href="{% url 'imagesapp:image_create' %}">add</a>)
         {% endif %}
     </h1>
+    <div id="search">
+        <input type="search" id="search-input" name="image_name" placeholder="Search images through name or description" />
+        <ul id="search-results"></ul>
+    </div>
+    <script type="text/javascript">
+        (function($){
+
+            function clearSearch(){
+                $('#search-input').val("");
+                $('#search-results').fadeOut(300);
+            }
+
+            function onChange(e){
+                var text = this.value;
+
+                if(text.length == 0){
+                    $('#search-results').fadeOut(300);
+                    return;
+                }
+
+                $.get("/imagesapp/images/search/?q="+text, function( data ) {
+                    data = parseData(data);
+                    displaydata(data);
+                });
+            }
+
+            function parseData(data){
+                for(var i = 0; i < data.length; i++){
+                    var id = data[i].pk,
+                        title = data[i].fields.title,
+                        description = data[i].fields.description,
+                        image = data[i].fields.url;
+
+                    data[i] = {
+                        'id': id,
+                        'title': title,
+                        'description': description,
+                        'image': image
+                    }
+                }
+                return data;
+            }
+
+            function displaydata(data){
+                var results = "";
+                if(data.length == 0){
+                    results = "<li class='noresults'>No results found</li>";
+                }else{
+                    for(var i = 0; i < data.length; i++){
+                        obj = data[i];
+                        results += "<a href='/imagesapp/images/"+obj.id+"'>" +
+                                        "<li>" +
+                                            "<img src='"+obj.image+"' alt='"+obj.title+"' />" +
+                                            "<p class='title'>"+obj.title+"</p>" +
+                                            "<p class='description'>"+obj.description+"</p>" +
+                                        "</li>" +
+                                    "</a>";
+                    }
+                }
+                $('#search-results').html(results);
+                $('#search-results').fadeIn(300);
+            }
+
+            window.addEventListener("load", function load(e){
+                document.getElementById("search-input").onkeyup = onChange;
+                document.onclick = clearSearch;
+            });
+        })(jQuery);
+    </script>
     {% for image in latest_images_list %}
         <div class="image">
 			<div class="top">

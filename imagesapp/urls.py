@@ -17,8 +17,13 @@ from django.utils import timezone
 from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
+
 from models import Image, Rate, Comment
-from views import ImageDetail, ImageCreate, ImageEdit, ImageDelete, RateCreate, CommentCreate, CommentDelete
+
+from views import AjaxImageSearch, ImageDetail, ImageCreate, ImageEdit, ImageDelete
+from views import RateCreate, RateEdit, RateDelete
+from views import CommentCreate, CommentEdit, CommentDelete
+
 from forms import ImageForm, RateForm, CommentForm
 
 
@@ -31,6 +36,12 @@ urlpatterns = [
             template_name='images_newest.html'
         ),
         name='image_list'
+    ),
+
+    # Search Results /imagesapp/images/search/?q=<NameToSearch>
+    url(r'^images/search/$',
+        AjaxImageSearch,
+        name = 'image_search'
     ),
 
 	#url(r'^toprated/$'),
@@ -79,12 +90,13 @@ urlpatterns = [
 
     # Edit Rate /imagesapp/rates/1/edit
     url(r'^rates/(?P<pk>\d+)/edit/$',
-        UpdateView.as_view(
-            model = Rate,
-            template_name = 'form.html',
-            form_class = RateForm
-        ),
+        RateEdit.as_view(),
         name='rate_edit'
+    ),
+
+    url(r'^rates/(?P<pk>\d+)/delete/$',
+        RateDelete.as_view(),
+        name = 'rate_delete'
     ),
 
 # COMMENTS
@@ -96,20 +108,13 @@ urlpatterns = [
 
     # Edit Comment /imagesapp/comments/1/edit
     url(r'^comments/(?P<pk>\d+)/edit/$',
-        UpdateView.as_view(
-            model = Comment,
-            template_name = 'form.html',
-            form_class = CommentForm
-        ),
+        CommentEdit.as_view(),
         name='comment_edit'
     ),
 
     # Delete Comment /imagesapp/comments/1/delete
     url(r'^comments/(?P<pk>\d+)/delete/$',
-        CommentDelete.as_view(
-            model = Comment,
-            success_url = reverse_lazy('imagesapp:image_list')
-        ),
+        CommentDelete.as_view(),
         name = 'comment_delete'
     )
 ]
