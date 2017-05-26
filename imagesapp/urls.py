@@ -28,10 +28,10 @@ from forms import ImageForm, RateForm, CommentForm
 
 
 urlpatterns = [
-    # List newest 10 images: /imagesapp/
+    # List newest images: /imagesapp/
     url(r'^$',
         ListView.as_view(
-            queryset=Image.objects.filter(date__lte=timezone.now()).order_by('date')[:10],
+            queryset=Image.objects.filter(date__lte=timezone.now()).order_by('-date'),
             context_object_name='latest_images_list',
             template_name='images_newest.html'
         ),
