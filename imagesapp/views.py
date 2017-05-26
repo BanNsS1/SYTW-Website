@@ -54,6 +54,9 @@ def SelfUserProfile(request):
     if request.user.is_authenticated():
         username = request.user.username
         return render(request, "user_detail.html", {})
+    else:
+        return HttpResponseRedirect("/accounts/login/")
+
 
 def AjaxImageSearch(request):
     q = request.GET.get('q')
