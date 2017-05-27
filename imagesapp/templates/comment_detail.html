@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="content_container">
+  <div id="content">
+    <div id="comment_detail">
+      <p>
+        {{ comment.user.username }} posted the following comment in
+        <a href="{% url 'imagesapp:image_detail' comment.image.id %}">this image</a>:
+      </p>
+      <p>
+        {{ comment.text }}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

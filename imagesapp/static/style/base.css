@@ -41,8 +41,8 @@ body{font-family: 'Ubuntu', 'Arial', 'sans-serif';}
 #content #search ul#search-results a{color:#888;}
 #content #search ul#search-results a:hover{color:#FFF;text-decoration:none;}
 #content #search ul#search-results li.noresults{padding:10px 0px;}
-#content #search ul#search-results li{background: #FFF;border: 1px #dcdcdc solid;border-top:0;overflow:hidden;cursor:pointer;}
-#content #search ul#search-results li img{max-width:50px;max-height:50px;float:left;padding:5px;}
+#content #search ul#search-results li{background: #FFF;padding:5px 0px;border: 1px #dcdcdc solid;border-top:0;overflow:hidden;cursor:pointer;}
+#content #search ul#search-results li img{max-width:50px;max-height:50px;float:left;padding:0px 5px;}
 #content #search ul#search-results li p.title{font-weight:bold;text-align:left;color:#217de2;}
 #content #search ul#search-results li p.description{text-align:left;font-size:14px;}
 #content #search ul#search-results li:hover{background: #1d93e6;}

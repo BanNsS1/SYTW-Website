@@ -11,9 +11,62 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from models import Image, Rate, Comment
 from forms import ImageForm, RateForm, CommentForm
+from serializers import ImageSerializer, RateSerializer, CommentSerializer
+
+class APIImageList(generics.ListCreateAPIView):
+    model = Image
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+class APIImageDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Image
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+class APIRateList(generics.ListCreateAPIView):
+    model = Rate
+    queryset = Rate.objects.all()
+    serializer_class = RateSerializer
+
+class APIRateDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Rate
+    queryset = Rate.objects.all()
+    serializer_class = RateSerializer
+
+class APICommentsList(generics.ListCreateAPIView):
+    model = Comment
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class APICommentsDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Comment
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+
+
+
+class LoginRequired(object):
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(LoginRequired, self).dispatch(*args, **kwargs)
+
+class OwnerRequired(object):
+    def get_object(self, *args, **kwargs):
+        obj = super(OwnerRequired, self).get_object(*args, **kwargs)
+        if not obj.user == self.request.user:
+            raise PermissionDenied
+        return obj
+
+# USERS
 
 class Register(CreateView):
     model = User
@@ -27,20 +80,6 @@ class Register(CreateView):
                                 )
         login(self.request, new_user)
         return HttpResponseRedirect("/accounts/profile/")
-
-
-class LoginRequired(object):
-    @method_decorator(login_required())
-    def dispatch(self, *args, **kwargs):
-        return super(LoginRequired, self).dispatch(*args, **kwargs)
-
-
-class OwnerRequired(object):
-    def get_object(self, *args, **kwargs):
-        obj = super(OwnerRequired, self).get_object(*args, **kwargs)
-        if not obj.user == self.request.user:
-            raise PermissionDenied
-        return obj
 
 class UserDetail(DetailView):
     model = User
@@ -57,6 +96,7 @@ def SelfUserProfile(request):
     else:
         return HttpResponseRedirect("/accounts/login/")
 
+#IMAGES
 
 def AjaxImageSearch(request):
     q = request.GET.get('q')
@@ -67,8 +107,6 @@ def AjaxImageSearch(request):
 
         data = serializers.serialize('json', results)
         return HttpResponse(data, content_type="application/json")
-
-
 
 class ImageDetail(DetailView):
     model = Image
@@ -105,6 +143,15 @@ class ImageEdit(LoginRequired, OwnerRequired, UpdateView):
 class ImageDelete(LoginRequired, OwnerRequired, DeleteView):
     template_name = 'delete_form.html'
 
+#RATES
+
+class RateDetail(DetailView):
+    model = Rate
+    template_name = 'rate_detail.html'
+
+    def get_content_data(self, **kwargs):
+        context = super(RateDetail, self).get_context_data(**kwargs)
+        return context
 
 class RateCreate(LoginRequired, CreateView):
     model = Rate
@@ -137,6 +184,16 @@ class RateDelete(LoginRequired, OwnerRequired, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('imagesapp:image_detail', args=(self.object.image.id,))
+
+#COMMENTS
+
+class CommentDetail(DetailView):
+    model = Comment
+    template_name = 'comment_detail.html'
+
+    def get_content_data(self, **kwargs):
+        context = super(CommentDetail, self).get_content_data(**kwargs)
+        return context
 
 class CommentCreate(LoginRequired, CreateView):
     model = Comment
