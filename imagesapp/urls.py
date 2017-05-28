@@ -17,6 +17,8 @@ from django.utils import timezone
 from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
+
+import rest_framework
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from models import Image, Rate, Comment
@@ -113,33 +115,33 @@ urlpatterns = [
         name = 'comment_delete')
 ]
 #RESTful API
-urlpatterns = [
+urlpatterns += [
     #IMAGES
     url(r'^api/images/$',
         APIImageList.as_view(),
-        name='image_list'),
+        name='image-list'),
 
     url(r'^api/images/(?P<pk>\d+)/$',
         APIImageDetail.as_view(),
-        name='image_detail'),
+        name='image-detail'),
 
     #RATES
     url(r'^api/rates/$',
         APIRateList.as_view(),
-        name='rate_list'),
+        name='rate-list'),
 
     url(r'^api/rates/(?P<pk>\d+)/$',
         APIRateDetail.as_view(),
-        name='rate_detail'),
+        name='rate-detail'),
 
     #COMMENTS
     url(r'^api/comments/$',
         APICommentsList.as_view(),
-        name='comment_list'),
+        name='comment-list'),
 
     url(r'^api/comments/(?P<pk>\d+)/$',
         APICommentsDetail.as_view(),
-        name='comment_detail')
+        name='comment-detail')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['api', 'json', 'xml'])

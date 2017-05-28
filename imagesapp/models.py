@@ -15,9 +15,11 @@ class Rate(models.Model):
     rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3,
         choices=RATING_CHOICES)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='rates')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="rates")
     date = models.DateField(default=date.today)
 
+    class Meta:
+        unique_together = ("image", "user")
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')

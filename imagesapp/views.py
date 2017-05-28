@@ -50,10 +50,6 @@ class APICommentsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-
-
-
-
 class LoginRequired(object):
     @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
@@ -164,7 +160,16 @@ class RateCreate(LoginRequired, CreateView):
     def form_valid(self,form):
         form.instance.user = self.request.user
         form.instance.image = Image.objects.get(id=self.kwargs['pk'])
-        return super(RateCreate, self).form_valid(form)
+
+        #Not allowing user to rate more than once the same image.
+        rates = Rate.objects.filter(
+            Q(image=form.instance.image) &
+            Q(user=form.instance.user)
+        )
+        if len(rates) == 0:
+            return super(RateCreate, self).form_valid(form)
+        else:
+            return HttpResponseRedirect("/imagesapp/images/"+str(form.instance.image.id)+"/?action=rate&error=1")
 
 class RateEdit(LoginRequired, OwnerRequired, UpdateView):
     model = Rate

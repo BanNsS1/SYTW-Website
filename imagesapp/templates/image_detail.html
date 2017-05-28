@@ -1,6 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
 <div id="content_container">
+  {% if request.GET.action != '' and request.GET.error != '' %}
+    <div id="error">
+      {% if request.GET.action == 'rate' and request.GET.error == '1' %}
+        You can't rate an image more than once. Althought you can edit your rating.
+      {% endif %}
+      <div id="close-error">x</div>
+      <script type="text/javascript">
+        (function($){
+          window.addEventListener("load", function load(e){
+              $('#close-error').click(function(){
+                $('#error').slideUp(300);
+              });
+          });
+        })(jQuery);
+      </script>
+    </div>
+  {% endif %}
+
+
   <div id="content">
     <div id="image_detail">
       {% if user == image.user %}
