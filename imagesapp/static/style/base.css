@@ -71,6 +71,22 @@ body{font-family: 'Ubuntu', 'Arial', 'sans-serif';}
 #content-forms-cnt form table td ul.errorlist{font-size:12px;color:#ff4040;}
 #content-forms-cnt form input.submit{margin-top:20px;color:#FFF;background:#5ca5ff; border:1px transparent solid;border-radius:5px;padding: 5px 20px;}
 
+/*image detail*/
+#content #image_detail{}
+#content #image_detail #owner_actions{text-align: right;}
+#content #image_detail #image_top {overflow:hidden;margin-top:10px;background: #f1f1f1;padding: 10px 10px 10px 20px;}
+#content #image_detail #image_top p.title{float:left;font-weight:bold;}
+#content #image_detail #image_top p.author{float:right;}
+#content #image_detail #image_top p.date{float:right;}
+#content #image_detail #image_view{text-align: center;padding: 10px 0px;}
+#content #image_detail #image_view img{max-width:95%;}
+#content #image_detail #extra{overflow:hidden;}
+#content #image_detail #rates, #content #image_detail #comments{float: right;height:300px;overflow-y:auto;width: 50%;border: 1px #a7a7a7 solid;box-sizing: border-box;background: #e8e8e8;}
+#content #image_detail #comments{border-right:0;}
+#content #image_detail #rates .title, #content #image_detail #comments .title{background: #CCC;font-weight: bold;color: #444;padding: 5px 10px;}
+#content #image_detail #rates .box, #content #image_detail #comments .box{background: #EFEFEF;padding: 5px 10px;}
+#content #image_detail #rates p.rate, #content #image_detail #comments p.comment{margin:5px 0px;}
+#content #image_detail #user_actions{margin-top:20px; text-align: center;}
 /*Single Message views*/
 #content-message{width: 800px;margin:30px auto;box-sizing: border-box;background: #FFF;box-shadow: 0px 0px 7px -2px #000;padding: 20px;border-radius: 7px;text-align:center;}
 

@@ -21,63 +21,84 @@
     </div>
   {% endif %}
 
-
   <div id="content" vocab="http://schema.org/" typeof="ImageObject">
     <div id="image_detail">
       {% if user == image.user %}
         <div id="owner_actions">
-          (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a>
-          <a href="{% url 'imagesapp:image_delete' image.id %}">Delete</a>)
+          <a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a>
+          <a href="{% url 'imagesapp:image_delete' image.id %}">Delete</a>
         </div>
       {% endif %}
 
-      <p class='title' property="name">
-        {{ image.title }}
-      </p>
-      <p class="author" property="author">
-          <a href="">{{ image.user.username }}</a>
-      </p>
-      <p class="date" property="datePublished">
-          {{ image.date|date:"Y-m-d" }}
-      </p>
-
-      <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" property="contentUrl" />
-
-      <p class="owner">Uploaded by {{ image.user.username }}</p>
+      <div id="image_top">
+          <p class='title' property="name">
+            {{ image.title }}
+          </p>
+          <p class="date" property="datePublished">
+              Uploaded by
+              {% if user == image.user %}
+                  <a href="{% url 'myprofile' %}" property="author">
+                      {{ image.user.username }}
+                  </a>
+              {% else %}
+                  <a href="{% url 'profile' image.user.id %}" property="author">
+                      {{ image.user.username }}
+                  </a>
+              {% endif %}
+              at <span property="datePublished">{{ image.date|date:"Y-m-d" }}</span>
+          </p>
+      </div>
+      <div id="image_view">
+          <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" property="contentUrl" />
+      </div>
       <p class="description" property="description">{{ image.description }}</p>
 
-      <div id="rates">
-        {% for rate in image.rates.all %}
-          {% if user == rate.user %}
-            <p>
-                You rated this image with a {{ rate.rating }}
-                <a href="{% url 'imagesapp:rate_edit' rate.id %}">Edit</a>
-                <a href="{% url 'imagesapp:rate_delete' rate.id %}">Delete</a>
-            </p>
-          {% else %}
-            <p>Rated by {{ rate.user.username }} with a {{ rate.rating }}
-          {% endif %}
-          {% empty %}<p>No one has rated this image yet. Be the first!</p>
-        {% endfor %}
+      <div id="extra">
+          <div id="rates">
+              <div class="title">Ratings</div>
+              <div class="box" rel="review">
+                {% for rate in image.rates.all %}
+                    <div typeof="Review">
+                        <span property="author" content="{{ rate.user.username }}"></span>
+                        <p class="rate" rel="reviewRating" typeof="Rating">
+                            <span>{{ rate.user.username }}</span>
+                            rated this image with a
+                            <span property="ratingValue">{{ rate.rating }}</span>
+
+                            <span property="bestRating" content="5"></span>
+                            <span property="worstRating" content="1"></span>
+                        </p>
+                        {% if user == rate.user %}
+                            <a href="{% url 'imagesapp:rate_edit' rate.id %}">Edit</a>
+                            <a href="{% url 'imagesapp:rate_delete' rate.id %}">Delete</a>
+                        {% endif %}
+                    </div>
+                      {% empty %}<p class="rate">No one has rated this image yet. Be the first!</p>
+                {% endfor %}
+              </div>
+            </div>
+
+          <div id="comments">
+              <div class="title">Comments</div>
+              <div class="box" rel="comment">
+                {% for comment in image.comments.all %}
+                  <p class="comment" typeof="Comment">
+                    <b property="author">{{ comment.user.username }}:</b> <span property="text">{{ comment.text }}</span>
+
+                    {% if user == comment.user %}
+                        <a href="{% url 'imagesapp:comment_edit' comment.id %}">Edit</a>
+                        <a href="{% url 'imagesapp:comment_delete' comment.id %}">Delete</a>
+                    {% endif %}
+                  </p>
+                  {% empty %}<p class="comment">No one has commented this image yet. Be the first!</p>
+                {% endfor %}
+              </div>
+          </div>
       </div>
 
-      <div id="comments">
-        {% for comment in image.comments.all %}
-          <p>
-            <b>{{ comment.user.username }}:</b>{{ comment.text }}
-
-            {% if user == comment.user %}
-                <a href="{% url 'imagesapp:comment_edit' comment.id %}">Edit</a>
-                <a href="{% url 'imagesapp:comment_delete' comment.id %}">Delete</a>
-            {% endif %}
-          </p>
-          {% empty %}<p>No one has commented this image yet. Be the first!</p>
-        {% endfor %}
-      </div>
-    </div>
     <div id="user_actions">
-        <a href="{% url 'imagesapp:comment_create' image.id %}">Comment</a> |
-        <a href="{% url 'imagesapp:rate_create' image.id %}">Rate</a>
+        <a href="{% url 'imagesapp:comment_create' image.id %}">Comment</a> or
+        <a href="{% url 'imagesapp:rate_create' image.id %}">Rate</a> this image!
     </div>
   </div>
 </div>
