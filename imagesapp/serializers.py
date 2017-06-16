@@ -5,13 +5,13 @@ from models import Image, Rate, Comment
 
 class ImageSerializer(HyperlinkedModelSerializer):
     uri = HyperlinkedIdentityField(view_name='imagesapp:image_detail')
-    #rate_set = HyperlinkedRelatedField(many=True, read_only=True,view_name='imagesapp:rate_detail')
-    #comment_set = HyperlinkedRelatedField(many=True, read_only=True,view_name='imagesapp:comment_detail')
+    rates = HyperlinkedRelatedField(many=True, read_only=True,view_name='imagesapp:rate_detail')
+    comments = HyperlinkedRelatedField(many=True, read_only=True,view_name='imagesapp:comment_detail')
     user = CharField(read_only=True)
 
     class Meta:
         model = Image
-        fields = ('uri','title','url','user','date','description')
+        fields = ('uri','title','url','user','date','description', 'rates', 'comments')
 
 class RateSerializer(HyperlinkedModelSerializer):
     uri = HyperlinkedIdentityField(view_name='imagesapp:rate_detail')

@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
+{% block title %}ImagesApp - Image: {{ image.title }}{% endblock %}
+
 {% block content %}
 <div id="content_container">
-  {% if request.GET.action != '' and request.GET.error != '' %}
+  {% if request.GET.action == 'rate' and request.GET.error != '' %}
     <div id="error">
       {% if request.GET.action == 'rate' and request.GET.error == '1' %}
         You can't rate an image more than once. Althought you can edit your rating.
@@ -20,24 +22,29 @@
   {% endif %}
 
 
-  <div id="content">
+  <div id="content" vocab="http://schema.org/" typeof="ImageObject">
     <div id="image_detail">
       {% if user == image.user %}
         <div id="owner_actions">
-          {{ image.id }}
           (<a href="{% url 'imagesapp:image_edit' image.id %}">Edit</a>
           <a href="{% url 'imagesapp:image_delete' image.id %}">Delete</a>)
         </div>
       {% endif %}
 
-      <p class='title'>
+      <p class='title' property="name">
         {{ image.title }}
       </p>
+      <p class="author" property="author">
+          <a href="">{{ image.user.username }}</a>
+      </p>
+      <p class="date" property="datePublished">
+          {{ image.date|date:"Y-m-d" }}
+      </p>
 
-      <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" />
+      <img src="{{ image.url }}" alt="{{ image.title }}" title="{{ image.title }}" property="contentUrl" />
 
       <p class="owner">Uploaded by {{ image.user.username }}</p>
-      <p class="description">{{ image.description }}</p>
+      <p class="description" property="description">{{ image.description }}</p>
 
       <div id="rates">
         {% for rate in image.rates.all %}

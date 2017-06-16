@@ -23,7 +23,7 @@
                     {% block header %}
                         <div id="account">
                             {% if user.username %}
-                                <p>User: <b>{{ request.user.username }}</b></p>
+                                <p>User: <b><a href="{% url 'profile' request.user.id %}">{{ request.user.username }}</a></b></p>
                             {% endif %}
                         </div>
                         <div id="menu">
